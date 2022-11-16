@@ -10,16 +10,15 @@ public class Server4713 {
     public static void main( String[] args) {
 	try {
 	    ServerSocket sock = new ServerSocket(4713,100);
-	    while (true) {
-			new ClientHandler(sock.accept()).start();
-		}
+	    while (true) 
+		new ClientHandler(sock.accept()).start();
 	}
-	catch(IOException e){
-	    System.err.println(e);
+	catch(IOException e)
+	    {System.err.println(e);
 	}
     }
 } 
-// Hello
+
 class ClientHandler extends Thread {
     static int numberOfPls=0;
     BufferedReader in;
@@ -33,20 +32,24 @@ class ClientHandler extends Thread {
 	catch(IOException e) {System.err.println(e);
 	}
     }
-	@SuppressWarnings("InfiniteLoopStatement")
+    
     public void run() {
 	Random random=new Random();
-	String[] hand={"ROCK","PAPER","SCISSORS"};
+	String[] hand={"STEN","SAX","PASE"};
 	try {
-	    System.out.println((++numberOfPls)+ ": RPS client connected");
+	    String name=in.readLine();
+	    System.out.println((++numberOfPls)+": "+name);
+            out.println("Hello, "+name);
+            out.flush();
 	    while(true) {
-			//String input = in.readLine();
-			out.println(hand[random.nextInt(3)]);
-			out.flush();
+		String input = in.readLine();
+		if(input==null || input.equals("")) break;
+		out.println(hand[random.nextInt(3)]);
+		out.flush();
 	    }
-	    //System.out.println("RPS client disconnected");
-	    //numberOfPls--;
-		//System.exit(0);
+	    out.println("Bye " + name); out.flush();
+	    System.out.println(name + " stopped playing");
+	    numberOfPls--;
 	}
         catch(Exception e) {
 	    System.err.println(e);
